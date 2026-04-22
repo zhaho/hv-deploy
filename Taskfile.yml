@@ -1,0 +1,35 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  deploy:
+    desc: "Deploy a new VM (interactive)"
+    silent: true
+    cmds:
+      - |
+        #!/usr/bin/env bash
+        read -p "VM name: " VM_NAME
+
+        read -p "Static IP (leave blank for DHCP): " ip
+        if [ -z "$ip" ]; then
+          STATIC_IP=""
+        elif [[ "$ip" == */* ]]; then
+          STATIC_IP="$ip"
+        else
+          STATIC_IP="${ip}/24"
+        fi
+
+        if [ -n "$STATIC_IP" ]; then
+          suggested=$(echo "$STATIC_IP" | cut -d'/' -f1 | awk -F. '{print $1"."$2"."$3".1"}')
+          read -p "Gateway [$suggested]: " gw
+          GATEWAY="${gw:-$suggested}"
+          ./deploy-vm.sh "$VM_NAME" "$STATIC_IP" "$GATEWAY"
+        else
+          ./deploy-vm.sh "$VM_NAME"
+        fi
+
+  fetch-script:
+    desc: "Fetch the latest deploy-vm.sh script"
+    cmds:
+      - sudo cp /mnt/c/HyperV/deploy-vm.ps1 ./
