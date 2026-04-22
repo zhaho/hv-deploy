@@ -1,0 +1,5 @@
+ ssh-keygen -t ed25519 -C "hyperv-lab"
+ cat ~/.ssh/id_ed25519.pub
+ ssh ldxadm@10.4.1.242
+ sudo apt update
+ sudo apt install ansible -y
