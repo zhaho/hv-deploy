@@ -1,0 +1,16 @@
+- name: Base config
+  hosts: linux
+  become: true
+
+  tasks:
+    - name: Install basic tools
+      apt:
+        name:
+          - vim
+          - curl
+          - htop
+        state: present
+        update_cache: yes
+
+    - name: Set timezone
+      command: timedatectl set-timezone Europe/Stockholm
