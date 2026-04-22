@@ -101,12 +101,11 @@ fi
 echo "Updating Ansible inventory..."
 
 mkdir -p $ANSIBLE_DIR
-touch $INVENTORY
 
-grep -q "^\[linux\]" $INVENTORY || echo "[linux]" >> $INVENTORY
-sed -i "/^$VM_NAME /d" $INVENTORY
-
-echo "$VM_NAME ansible_host=$VM_IP ansible_user=ldxadm ansible_ssh_common_args='-o StrictHostKeyChecking=no'" >> $INVENTORY
+cat > $INVENTORY <<EOF
+[linux]
+$VM_NAME ansible_host=$VM_IP ansible_user=ldxadm ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+EOF
 
 echo "Running Ansible playbook..."
 

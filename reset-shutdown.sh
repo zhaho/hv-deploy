@@ -1,5 +1,4 @@
 sudo rm -f /etc/cloud/cloud-init.disabled
-sudo nano /etc/cloud/cloud.cfg.d/99_hyperv.cfg
 sudo cloud-init clean
 sudo systemctl enable cloud-init
 sudo systemctl enable cloud-init-local
